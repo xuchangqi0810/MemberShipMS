@@ -1,0 +1,29 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+        PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<!--namespace:接口绝对路径-->
+<mapper namespace="cn.xcq.dao.IUsersDAO">
+
+    <resultMap id="users" type="cn.xcq.entity.Users">
+        <id property="id" column="id"/>
+        <result property="name" column="name"/>
+        <result property="password" column="password"/>
+        <result property="status" column="status"/>
+        <result property="last_modify_time" column="last_modify_time"/>
+        <result property="type_id" column="type_id"/>
+        <association property="user_type" javaType="cn.xcq.entity.User_type" select="selectUser_type" column="type_id">
+        </association>
+    </resultMap>
+
+    <select id="selectUser_type" resultType="cn.xcq.entity.User_type">
+        select * from user_type WHERE id=#{id}
+    </select>
+
+    <!--01.登录-->
+    <select id="login" resultMap="users">
+        SELECT * FROM users WHERE name=#{0} AND password=#{1}
+    </select>
+
+
+</mapper>
